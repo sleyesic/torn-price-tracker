@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Torn Market - Stable Version</title>
+  <title>Torn Market – Clé API</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: Arial, sans-serif; background: #121212; color: #fff; padding: 20px; }
     h1 { text-align: center; }
-    button { margin: 10px auto; display: block; padding: 8px 16px; background: #444; color: #fff; border: none; cursor: pointer; }
+    input { padding: 6px; width: 300px; }
+    button { margin: 10px 0; padding: 6px 16px; background: #444; color: #fff; border: none; cursor: pointer; }
     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
     th, td { padding: 10px; border: 1px solid #333; text-align: center; }
     th { background: #222; }
@@ -16,19 +17,23 @@
   </style>
 </head>
 <body>
-  <h1>Top 3 Cheapest Items (Live)</h1>
+  <h1>Top 3 Cheapest Items (API personnalisée)</h1>
+
+  <label for="apikey">🔑 Clé API Torn :</label>
+  <input type="text" id="apikey" placeholder="Collez votre clé API ici" />
   <button onclick="fetchPrices()">🔁 Refresh maintenant</button>
+
   <table>
     <thead>
       <tr>
         <th>Item</th>
-        <th>1er Prix</th>
-        <th>2e Prix</th>
-        <th>3e Prix</th>
+        <th>Prix 1</th>
+        <th>Prix 2</th>
+        <th>Prix 3</th>
       </tr>
     </thead>
     <tbody id="market-table">
-      <tr><td colspan="4">Chargement...</td></tr>
+      <tr><td colspan="4">Aucune donnée chargée</td></tr>
     </tbody>
   </table>
 
@@ -40,12 +45,18 @@
     ];
 
     async function fetchPrices() {
+      const key = document.getElementById("apikey").value.trim();
       const table = document.getElementById("market-table");
       table.innerHTML = "";
 
+      if (!key) {
+        table.innerHTML = '<tr><td colspan="4">Veuillez entrer votre clé API Torn.</td></tr>';
+        return;
+      }
+
       for (const item of itemList) {
         try {
-          const res = await fetch(`/.netlify/functions/proxy?itemId=${item.id}`);
+          const res = await fetch(`/.netlify/functions/proxy?itemId=${item.id}&key=${key}`);
           const api = await res.json();
           const listings = api?.listings;
 
@@ -69,9 +80,6 @@
         }
       }
     }
-
-    fetchPrices();
-    setInterval(fetchPrices, 60000);
   </script>
 </body>
 </html>

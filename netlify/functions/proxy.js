@@ -3,7 +3,14 @@ const fetch = require('node-fetch');
 
 exports.handler = async function(event, context) {
   const itemId = event.queryStringParameters.itemId;
-  const apiKey = "7SME3JWfIcVWRGLY";
+  const apiKey = event.queryStringParameters.key;
+  if (!apiKey) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Missing Torn API key." })
+    };
+  }
+
   const url = `https://api.torn.com/v2/market/${itemId}?selections=itemmarket&key=${apiKey}`;
 
   try {

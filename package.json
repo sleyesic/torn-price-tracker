@@ -1,6 +1,6 @@
 
 {
-  "name": "torn-price-stable",
+  "name": "torn-price-with-key",
   "version": "1.0.0",
   "dependencies": {
     "node-fetch": "^2.6.1"
