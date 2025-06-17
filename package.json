@@ -1,8 +1,7 @@
-
 {
-  "name": "torn-price-with-key",
+  "name": "torn-price-ui",
   "version": "1.0.0",
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
   }
 }
