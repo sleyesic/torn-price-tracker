@@ -1,15 +1,15 @@
-const fetch = require('node-fetch');
+export default async function handler(req, res) {
+    const { itemId, key } = req.query;
 
-exports.handler = async function(event) {
-  const itemID = event.queryStringParameters.itemID;
-  const response = await fetch(`https://api.torn.com/market/${itemID}?selections=itemmarket&key=7SME3JWfIcVWRGLY`);
-  const data = await response.json();
-  return {
-    statusCode: 200,
-    body: JSON.stringify(data),
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
+    if (!itemId || !key) {
+        return res.status(400).json({ error: "Missing parameters" });
     }
-  };
-};
+
+    try {
+        const response = await fetch(`https://api.torn.com/market/${itemId}?selections=itemmarket&key=${key}`);
+        const data = await response.json();
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ error: "Proxy fetch failed" });
+    }
+}
