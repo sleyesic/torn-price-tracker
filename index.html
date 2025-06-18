@@ -1,82 +1,63 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Top 3 Cheapest Items (API personnalisée)</title>
   <style>
     body {
       background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
+      color: #fff;
+      font-family: sans-serif;
       text-align: center;
-      padding: 20px;
     }
     table {
-      width: 90%%;
       margin: auto;
       border-collapse: collapse;
-      background-color: #222;
+      width: 80%;
     }
     th, td {
+      padding: 12px;
       border: 1px solid #333;
-      padding: 8px;
-    }
-    th {
-      background-color: #333;
-    }
-    a {
-      color: #00f0ff;
-      text-decoration: none;
-    }
-    input {
-      padding: 6px;
-      width: 250px;
-    }
-    button {
-      padding: 6px 12px;
     }
   </style>
 </head>
 <body>
-  <h2>Top 3 Cheapest Items (API personnalisée)</h2>
-  🔑 Clé API Torn :
-  <input type="text" id="apiKey" placeholder="Votre clé API Torn" />
+  <h1>Top 3 Cheapest Items (API personnalisée)</h1>
+  <input type="text" id="apiKey" style="display:none;">
   <button id="loadPrices">🔄 Refresh maintenant</button>
-  <br /><br />
+  <br><br>
   <table>
-    <thead>
-      <tr><th>Item</th><th>Prix 1</th><th>Prix 2</th><th>Prix 3</th></tr>
-    </thead>
+    <thead><tr><th>Item</th><th>Prix 1</th><th>Prix 2</th><th>Prix 3</th></tr></thead>
     <tbody>
       <tr><td>Donator Pack</td><td colspan="3" id="dp">Chargement...</td></tr>
       <tr><td>Xanax</td><td colspan="3" id="xanax">Chargement...</td></tr>
       <tr><td>Stat Enhancer</td><td colspan="3" id="stat">Chargement...</td></tr>
     </tbody>
   </table>
+
   <script>
-    const items = { 283: "dp", 206: "xanax", 209: "stat" };
-    document.getElementById("apiKey").value = localStorage.getItem("tornApiKey") || "";
+    const apiKey = localStorage.getItem('tornApiKey');
+    if (!apiKey) window.location.href = 'login.html';
+    document.getElementById("apiKey").value = apiKey;
 
     async function loadPrices() {
-      const key = document.getElementById("apiKey").value.trim();
-      localStorage.setItem("tornApiKey", key);
-      for (const [itemId, htmlId] of Object.entries(items)) {
+      const items = { dp: 283, xanax: 206, stat: 209 };
+      for (const [htmlId, itemId] of Object.entries(items)) {
         try {
-          const res = await fetch(`/api/proxy?itemId=${itemId}&key=${key}`);
+          const res = await fetch(`/api/proxy?itemId=${itemId}&key=${apiKey}`);
           const data = await res.json();
-          if (data.error) throw new Error(data.error);
-          const listings = data.itemmarket?.listings || [];
-          const top3 = listings.slice(0, 3).map(i =>
-            `<a href="https://www.torn.com/imarket.php#/p=shop&type=inventory&searchname=&id=${itemId}" target="_blank">${i.price.toLocaleString()}$ (${i.amount})</a>`
+          const listings = (data.itemmarket || {}).listings || [];
+          const top3 = listings.slice(0, 3).map(l => 
+            `<a href="https://www.torn.com/imarket.php#/pshop&type=inventory&searchname=&id=${itemId}" target="_blank">
+              ${l.price.toLocaleString()}$ (${l.amount})
+            </a>`
           );
-          document.getElementById(htmlId).innerHTML =
-            `<td>${top3[0] || "N/A"}</td><td>${top3[1] || "N/A"}</td><td>${top3[2] || "N/A"}</td>`;
+          document.getElementById(htmlId).innerHTML = top3.join('') || "N/A";
         } catch (e) {
           document.getElementById(htmlId).innerHTML = '<td colspan="3">Erreur de chargement</td>';
         }
       }
     }
-
     document.getElementById("loadPrices").addEventListener("click", loadPrices);
   </script>
 </body>

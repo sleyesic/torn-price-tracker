@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion Torn API</title>
+  <style>
+    body {
+      background: #111; color: #fff; font-family: sans-serif; text-align: center;
+      margin-top: 100px;
+    }
+    input, button {
+      font-size: 18px; padding: 8px; width: 300px; margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔑 Entrez votre clé API Torn</h1>
+  <input type="text" id="apiKey" placeholder="Votre clé API Torn">
+  <br>
+  <button onclick="login()">Connexion</button>
+
+  <script>
+    function login() {
+      const key = document.getElementById('apiKey').value.trim();
+      if (!key) return alert('Entrez une clé API');
+      localStorage.setItem('tornApiKey', key);
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
