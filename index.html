@@ -1,47 +1,43 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Connexion Torn</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-    input {
-      padding: 10px;
-      font-size: 1rem;
-      margin-bottom: 10px;
-      width: 300px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torn Market Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="https://www.torn.com/favicon.ico" />
 </head>
 <body>
-  <h2>Connexion avec votre clé API Torn</h2>
-  <input type="text" id="apiKey" placeholder="Entrez votre clé API Torn" />
-  <button onclick="login()">Connexion</button>
+  <div class="container">
+    <h1>💰 Torn Price Tracker</h1>
 
-  <script>
-    function login() {
-      const key = document.getElementById("apiKey").value.trim();
-      if (!key) {
-        alert("Veuillez entrer une clé API valide.");
-        return;
-      }
-      sessionStorage.setItem("tornApiKey", key);
-      window.location.href = "main.html";
-    }
-  </script>
+    <div class="api-box">
+      <input type="text" id="apiKey" placeholder="🔑 Entrez votre clé API Torn" />
+      <button id="loginBtn">Se connecter</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>📦 Item</th>
+            <th>Prix 1</th>
+            <th>Prix 2</th>
+            <th>Prix 3</th>
+          </tr>
+        </thead>
+        <tbody id="dataTable">
+          <!-- Rempli dynamiquement -->
+        </tbody>
+      </table>
+      <button id="refreshBtn">🔄 Rafraîchir les prix</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Créé par Gab & ChatGPT • <a href="https://torn.com">Torn.com</a></p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
