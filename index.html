@@ -2,68 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Torn Market - Top 3 Deals</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torn Market Tracker</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #121212; color: #fff; padding: 20px; }
-    h1 { text-align: center; }
+    body { font-family: Arial, sans-serif; background: #111; color: #eee; padding: 20px; }
+    h1 { color: #f44336; }
     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 10px; border: 1px solid #333; text-align: center; }
+    th, td { padding: 10px; border: 1px solid #333; text-align: left; }
     th { background: #222; }
-    tr:nth-child(even) { background: #1a1a1a; }
+    button { background: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+    button:hover { background: #e53935; }
   </style>
 </head>
 <body>
-  <h1>Top 3 Cheapest Items (Live)</h1>
+  <h1>Torn Market Tracker</h1>
+  <button onclick="loadMarket()">🔄 Refresh</button>
   <table>
     <thead>
-      <tr>
-        <th>Item</th>
-        <th>1er Prix</th>
-        <th>2e Prix</th>
-        <th>3e Prix</th>
-      </tr>
+      <tr><th>Item</th><th>Lowest Price</th><th>Quantity</th><th>Buy</th></tr>
     </thead>
-    <tbody id="market-table">
-      <tr><td colspan="4">Chargement...</td></tr>
-    </tbody>
+    <tbody id="market-table"></tbody>
   </table>
 
-  <script>
-    const itemList = [
-      { id: 283, name: "Donator Pack" },
-      { id: 206, name: "Xanax" },
-      { id: 209, name: "Stat Enhancer" }
-    ];
-
-    async function fetchPrices() {
-      const table = document.getElementById("market-table");
-      table.innerHTML = "";
-
-      for (const item of itemList) {
-        try {
-          const res = await fetch(`/.netlify/functions/proxy?itemId=${item.id}`);
-          const data = await res.json();
-          const offers = (data.itemmarket?.listings || []).sort((a, b) => a.price - b.price).slice(0, 3);
-
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${offers[0] ? offers[0].price.toLocaleString() + '$' : 'N/A'}</td>
-            <td>${offers[1] ? offers[1].price.toLocaleString() + '$' : 'N/A'}</td>
-            <td>${offers[2] ? offers[2].price.toLocaleString() + '$' : 'N/A'}</td>
-          `;
-          table.appendChild(row);
-        } catch (e) {
-          const row = document.createElement("tr");
-          row.innerHTML = `<td colspan="4">Erreur de chargement pour ${item.name}</td>`;
-          table.appendChild(row);
-        }
-      }
-    }
-
-    fetchPrices();
-    setInterval(fetchPrices, 60000);
-  </script>
+  <script src="main.js"></script>
 </body>
 </html>

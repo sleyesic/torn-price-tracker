@@ -1,27 +1,15 @@
-
 const fetch = require('node-fetch');
 
-exports.handler = async function(event, context) {
-  const itemId = event.queryStringParameters.itemId;
-  const apiKey = "7SME3JWfIcVWRGLY";
-  const url = `https://api.torn.com/v2/market/${itemId}?selections=itemmarket&key=${apiKey}`;
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(data),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-      }
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Erreur proxy." })
-    };
-  }
+exports.handler = async function(event) {
+  const itemID = event.queryStringParameters.itemID;
+  const response = await fetch(`https://api.torn.com/market/${itemID}?selections=itemmarket&key=7SME3JWfIcVWRGLY`);
+  const data = await response.json();
+  return {
+    statusCode: 200,
+    body: JSON.stringify(data),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    }
+  };
 };

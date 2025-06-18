@@ -1,36 +1,31 @@
+const items = {
+  206: "Xanax",
+  283: "Donator Pack",
+  207: "Ecstasy",
+  209: "LSD",
+  210: "Opium",
+  288: "Plushie",
+  235: "Box of Grenades",
+  258: "Neumune Tablets",
+  208: "Ketamine"
+};
 
-let apiKey = "";
-
-function connect() {
-  apiKey = document.getElementById("apiKey").value.trim();
-  localStorage.setItem("tornApiKey", apiKey);
-  loadPrices();
-}
-
-async function loadPrices() {
-  apiKey = localStorage.getItem("tornApiKey") || "";
-  if (!apiKey) return alert("Clé API manquante.");
-
-  const items = {
-    xanax: 206,
-    stat: 208,
-    dp: 209
-  };
-
-  for (const [name, id] of Object.entries(items)) {
-    try {
-      const res = await fetch(`/api/proxy?itemId=${id}&key=${apiKey}`);
-      const data = await res.json();
-      const prices = (data?.item?.market?.[id]?.[0]?.price) ? data.item.market[id].slice(0, 3) : [];
-      for (let i = 0; i < 3; i++) {
-        document.getElementById(`${name}${i}`).textContent = prices[i]
-          ? `${prices[i].price.toLocaleString()}$ (${prices[i].amount})`
-          : "Erreur de chargement";
-      }
-    } catch (e) {
-      for (let i = 0; i < 3; i++) {
-        document.getElementById(`${name}${i}`).textContent = "Erreur de chargement";
-      }
-    }
+async function loadMarket() {
+  const table = document.getElementById("market-table");
+  table.innerHTML = "";
+  for (const [id, name] of Object.entries(items)) {
+    const res = await fetch(`/.netlify/functions/proxy?itemID=${id}`);
+    const data = await res.json();
+    if (!data.itemmarket || !data.itemmarket.listings || !data.itemmarket.listings.length) continue;
+    const listing = data.itemmarket.listings[0];
+    const row = `<tr>
+      <td>${name}</td>
+      <td>${listing.price.toLocaleString()}$</td>
+      <td>${listing.amount}</td>
+      <td><a href="https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=${name}" target="_blank">Buy</a></td>
+    </tr>`;
+    table.innerHTML += row;
   }
 }
+
+window.onload = loadMarket;
