@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: 244, name: "FHC" },
     ];
 
-    const table = document.getElementById("price-table");
+    const table = document.getElementById("market-table");
     const refreshButton = document.getElementById("refresh");
 
     async function fetchItemPrice(item) {
