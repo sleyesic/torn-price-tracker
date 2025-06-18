@@ -1,13 +1,13 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 
-exports.handler = async function(event, context) {
+exports.handler = async function(event) {
   const itemId = event.queryStringParameters.itemId;
   const apiKey = event.queryStringParameters.key;
 
   if (!apiKey) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: "Missing Torn API key." })
+      body: JSON.stringify({ error: "Missing Torn API key." }),
     };
   }
 

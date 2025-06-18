@@ -1,51 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Torn Market</title>
-  <style>
-    body {
-      background-color: #121212;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      text-align: center;
-    }
-    input, button {
-      margin: 10px;
-      padding: 10px;
-      border: none;
-      border-radius: 4px;
-    }
-    input {
-      width: 300px;
-    }
-    button {
-      background-color: #6200ea;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #3700b3;
-    }
-    .item-box {
-      margin-top: 20px;
-      background-color: #1e1e1e;
-      padding: 15px;
-      border-radius: 8px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Torn Market - Prix en direct</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>💊 Torn Market - Prix en direct</h1>
-  <input type="text" id="apiKey" placeholder="Entrez votre clé API Torn..." />
-  <button id="connectBtn">Se connecter</button>
-  <button id="refreshBtn">Rafraîchir les prix</button>
+  <div class="main">
+    <h1>💊 Torn Market - Prix en direct</h1>
+    <input id="apiKeyInput" type="text" placeholder="Votre clé API Torn">
+    <button onclick="connect()">Se connecter</button>
+    <button onclick="loadPrices()">Rafraîchir les prix</button>
 
-  <div id="priceList" class="item-box"></div>
-
-  <script src="main.js"></script>
+    <div class="card" id="xanax">
+      <h2>Xanax</h2>
+      <p id="prix-xanax">Erreur de chargement.</p>
+    </div>
+    <div class="card" id="stat">
+      <h2>Stat Enhancer</h2>
+      <p id="prix-stat">Erreur de chargement.</p>
+    </div>
+    <div class="card" id="dp">
+      <h2>Donator Pack</h2>
+      <p id="prix-dp">Erreur de chargement.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
