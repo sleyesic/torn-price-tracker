@@ -1,30 +1,48 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Connexion Torn API</title>
+  <title>Connexion API Torn</title>
   <style>
     body {
-      background: #111; color: #fff; font-family: sans-serif; text-align: center;
-      margin-top: 100px;
+      background: #111;
+      color: white;
+      font-family: Arial;
+      text-align: center;
+      padding-top: 10%;
     }
-    input, button {
-      font-size: 18px; padding: 8px; width: 300px; margin-top: 10px;
+    input {
+      padding: 10px;
+      width: 300px;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #0077ff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>🔑 Entrez votre clé API Torn</h1>
-  <input type="text" id="apiKey" placeholder="Votre clé API Torn">
-  <br>
-  <button onclick="login()">Connexion</button>
+  <h1>Connexion avec votre clé API Torn</h1>
+  <input type="text" id="apiKey" placeholder="Entrez votre clé API Torn" />
+  <button onclick="redirect()">Continuer</button>
 
   <script>
-    function login() {
-      const key = document.getElementById('apiKey').value.trim();
-      if (!key) return alert('Entrez une clé API');
-      localStorage.setItem('tornApiKey', key);
-      window.location.href = 'index.html';
+    function redirect() {
+      const key = document.getElementById("apiKey").value.trim();
+      if (key.length > 0) {
+        localStorage.setItem("tornApiKey", key);
+        window.location.href = "index.html?key=" + encodeURIComponent(key);
+      } else {
+        alert("Veuillez entrer une clé API.");
+      }
     }
   </script>
 </body>
