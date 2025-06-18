@@ -1,35 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Torn Price Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Torn Market</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    input, button {
+      margin: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+    }
+    input {
+      width: 300px;
+    }
+    button {
+      background-color: #6200ea;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3700b3;
+    }
+    .item-box {
+      margin-top: 20px;
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>💰 Torn Price Tracker</h1>
-    <div class="login-box">
-      <input type="text" id="apiKey" placeholder="Votre clé API Torn" />
-      <button onclick="connect()">Se connecter</button>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>📦 Item</th>
-          <th>Prix 1</th>
-          <th>Prix 2</th>
-          <th>Prix 3</th>
-        </tr>
-      </thead>
-      <tbody id="priceTable">
-        <tr><td>Xanax</td><td colspan="3">Erreur de chargement</td></tr>
-        <tr><td>Stat Enhancer</td><td colspan="3">Erreur de chargement</td></tr>
-        <tr><td>Donator Pack</td><td colspan="3">Erreur de chargement</td></tr>
-      </tbody>
-    </table>
-    <button onclick="loadPrices()">🔁 Rafraîchir les prix</button>
-  </div>
+  <h1>💊 Torn Market - Prix en direct</h1>
+  <input type="text" id="apiKey" placeholder="Entrez votre clé API Torn..." />
+  <button id="connectBtn">Se connecter</button>
+  <button id="refreshBtn">Rafraîchir les prix</button>
+
+  <div id="priceList" class="item-box"></div>
+
   <script src="main.js"></script>
 </body>
 </html>
