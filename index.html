@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Torn Market Tracker</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #111; color: #eee; padding: 20px; }
-    h1 { color: #f44336; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 10px; border: 1px solid #333; text-align: left; }
-    th { background: #222; }
-    button { background: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer; }
-    button:hover { background: #e53935; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Torn Market Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #eee;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #f44336;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #333;
+            text-align: left;
+        }
+
+        th {
+            background: #222;
+        }
+
+        button {
+            background: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: #e53935;
+            }
+    </style>
 </head>
 <body>
     <h1>Torn Market Tracker</h1>
-    <button id="refresh" onclick="loadMarket()">🔄 Refresh</button>
+    <button id="refresh">🔄 Refresh</button>
     <table>
         <thead>
             <tr><th>Item</th><th>Lowest Price</th><th>Quantity</th><th>Buy</th></tr>
