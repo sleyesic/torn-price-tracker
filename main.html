@@ -2,80 +2,86 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Top 3 Cheapest Items (API personnalisée)</title>
-  <style>
-    body {
-      background: #111;
-      color: white;
-      font-family: sans-serif;
-      text-align: center;
-    }
-    table {
-      margin: 20px auto;
-      border-collapse: collapse;
-      width: 90%;
-    }
-    th, td {
-      padding: 12px;
-      border: 1px solid #333;
-    }
-    th {
-      background-color: #222;
-    }
-    button {
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <title>Top 3 Cheapest Items (API personnalisée)</title>
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 90%;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #333;
+        }
+
+        th {
+            background-color: #222;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-  <h2>Top 3 Cheapest Items (API personnalisée)</h2>
-  <button id="refresh">🔄 Refresh maintenant</button>
-  <table>
-    <thead>
-      <tr><th>Item</th><th>Prix 1</th><th>Prix 2</th><th>Prix 3</th></tr>
-    </thead>
-    <tbody id="itemTable">
-      <tr><td>Donator Pack</td><td colspan="3">Chargement...</td></tr>
-      <tr><td>Xanax</td><td colspan="3">Chargement...</td></tr>
-      <tr><td>Stat Enhancer</td><td colspan="3">Chargement...</td></tr>
-    </tbody>
-  </table>
+    <h2>Top 3 Cheapest Items (API personnalisée)</h2>
+    <button id="refresh">🔄 Refresh maintenant</button>
+    <table>
+        <thead>
+            <tr><th>Item</th><th>Prix 1</th><th>Prix 2</th><th>Prix 3</th></tr>
+        </thead>
+        <tbody id="itemTable">
+            <tr><td>Donator Pack</td><td colspan="3">Chargement...</td></tr>
+            <tr><td>Xanax</td><td colspan="3">Chargement...</td></tr>
+            <tr><td>Stat Enhancer</td><td colspan="3">Chargement...</td></tr>
+        </tbody>
+    </table>
 
-  <script>
-    const items = {
-      283: "Donator Pack",
-      206: "Xanax",
-      209: "Stat Enhancer"
-    };
+    <script>
+        const items = {
+            283: "Donator Pack",
+            206: "Xanax",
+            209: "Stat Enhancer"
+        };
 
-    async function loadPrices() {
-      const key = sessionStorage.getItem("tornApiKey");
-      if (!key) {
-        alert("Clé API manquante. Redirection...");
-        window.location.href = "index.html";
-        return;
-      }
+        async function loadPrices() {
+            const key = sessionStorage.getItem("tornApiKey");
+            if (!key) {
+                alert("Clé API manquante. Redirection...");
+                window.location.href = "index.html";
+                return;
+            }
 
-      for (const [id, name] of Object.entries(items)) {
-        try {
-          const res = await fetch(`/api/proxy?itemId=${id}&key=${key}`);
-          const data = await res.json();
-          const list = (data?.itemmarket?.listings || []).slice(0, 3);
-          const row = document.createElement("tr");
-          row.innerHTML = `<td>${name}</td>` + list.map(l => 
-            `<td><a href="https://www.torn.com/imarket.php#/p=shop&type=inventory&searchname=&id=${id}" target="_blank">${l.price.toLocaleString()}$ (${l.amount})</a></td>`
-          ).join("") + "<td>".repeat(3 - list.length).split("<td>").slice(1).join("<td>N/A</td>");
-          document.querySelector(`#itemTable tr:nth-child(${Object.keys(items).indexOf(id)+1})`).replaceWith(row);
-        } catch {
-          document.querySelector(`#itemTable tr:nth-child(${Object.keys(items).indexOf(id)+1})`).innerHTML =
-            `<td>${name}</td><td colspan="3">Erreur de chargement</td>`;
+            for (const [id, name] of Object.entries(items)) {
+                try {
+                    const res = await fetch(`/netlify/functions/proxy?itemId=${id}&key=${key}`);
+                    const data = await res.json();
+                    const list = (data?.itemmarket?.[id]?.listings || []).slice(0, 3);
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>${name}</td>` +
+                        list.map(l =>
+                            `<td><a href="https://www.torn.com/imarket.php#/p=shop&type=inventory&searchname=&id=${id}" target="_blank">${l.price.toLocaleString()}$ (${l.amount})</a></td>`
+                        ).join("") +
+                        "<td>".repeat(3 - list.length).split("<td>").slice(1).join("<td>N/A</td>");
+                    document.querySelector(`#itemTable tr:nth-child(${Object.keys(items).indexOf(id) + 1})`).replaceWith(row);
+                } catch {
+                    document.querySelector(`#itemTable tr:nth-child(${Object.keys(items).indexOf(id) + 1})`).innerHTML =
+                        `<td>${name}</td><td colspan="3">Erreur de chargement</td>`;
+                }
+            }
         }
-      }
-    }
 
-    document.getElementById("refresh").addEventListener("click", loadPrices);
-    window.addEventListener("load", loadPrices);
-  </script>
+        document.getElementById("refresh").addEventListener("click", loadPrices);
+        window.addEventListener("load", loadPrices);
+    </script>
 </body>
 </html>
