@@ -1,13 +1,13 @@
+
 const fetch = require("node-fetch");
 
-exports.handler = async function(event, context) {
+exports.handler = async function(event) {
   const itemId = event.queryStringParameters.itemId;
   const apiKey = event.queryStringParameters.key;
-
-  if (!apiKey) {
+  if (!itemId || !apiKey) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: "Missing Torn API key." })
+      body: JSON.stringify({ error: "Missing parameters." })
     };
   }
 
@@ -15,14 +15,13 @@ exports.handler = async function(event, context) {
   try {
     const response = await fetch(url);
     const json = await response.json();
-
     return {
       statusCode: 200,
-      body: JSON.stringify(json.data),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json"
-      }
+      },
+      body: JSON.stringify(json.data)
     };
   } catch (error) {
     return {
