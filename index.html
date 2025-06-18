@@ -3,41 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Torn Market Tracker</title>
+  <title>Torn Price Tracker</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="https://www.torn.com/favicon.ico" />
 </head>
 <body>
   <div class="container">
     <h1>💰 Torn Price Tracker</h1>
-
-    <div class="api-box">
-      <input type="text" id="apiKey" placeholder="🔑 Entrez votre clé API Torn" />
-      <button id="loginBtn">Se connecter</button>
+    <div class="login-box">
+      <input type="text" id="apiKey" placeholder="Votre clé API Torn" />
+      <button onclick="connect()">Se connecter</button>
     </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>📦 Item</th>
-            <th>Prix 1</th>
-            <th>Prix 2</th>
-            <th>Prix 3</th>
-          </tr>
-        </thead>
-        <tbody id="dataTable">
-          <!-- Rempli dynamiquement -->
-        </tbody>
-      </table>
-      <button id="refreshBtn">🔄 Rafraîchir les prix</button>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>📦 Item</th>
+          <th>Prix 1</th>
+          <th>Prix 2</th>
+          <th>Prix 3</th>
+        </tr>
+      </thead>
+      <tbody id="priceTable">
+        <tr><td>Xanax</td><td colspan="3">Erreur de chargement</td></tr>
+        <tr><td>Stat Enhancer</td><td colspan="3">Erreur de chargement</td></tr>
+        <tr><td>Donator Pack</td><td colspan="3">Erreur de chargement</td></tr>
+      </tbody>
+    </table>
+    <button onclick="loadPrices()">🔁 Rafraîchir les prix</button>
   </div>
-
-  <footer>
-    <p>Créé par Gab & ChatGPT • <a href="https://torn.com">Torn.com</a></p>
-  </footer>
-
-  <script src="script.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
