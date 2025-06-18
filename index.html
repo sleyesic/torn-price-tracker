@@ -1,64 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Top 3 Cheapest Items (API personnalisée)</title>
+  <meta charset="UTF-8" />
+  <title>Connexion API Torn</title>
   <style>
     body {
       background: #111;
-      color: #fff;
+      color: white;
       font-family: sans-serif;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
-    table {
-      margin: auto;
-      border-collapse: collapse;
-      width: 80%;
+    input {
+      padding: 8px;
+      font-size: 16px;
     }
-    th, td {
-      padding: 12px;
-      border: 1px solid #333;
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Top 3 Cheapest Items (API personnalisée)</h1>
-  <input type="text" id="apiKey" style="display:none;">
-  <button id="loadPrices">🔄 Refresh maintenant</button>
-  <br><br>
-  <table>
-    <thead><tr><th>Item</th><th>Prix 1</th><th>Prix 2</th><th>Prix 3</th></tr></thead>
-    <tbody>
-      <tr><td>Donator Pack</td><td colspan="3" id="dp">Chargement...</td></tr>
-      <tr><td>Xanax</td><td colspan="3" id="xanax">Chargement...</td></tr>
-      <tr><td>Stat Enhancer</td><td colspan="3" id="stat">Chargement...</td></tr>
-    </tbody>
-  </table>
+  <h1>Entrez votre clé API Torn</h1>
+  <input type="text" id="apiKey" placeholder="Votre clé API Torn" />
+  <button id="submit">Connexion</button>
 
   <script>
-    const apiKey = localStorage.getItem('tornApiKey');
-    if (!apiKey) window.location.href = 'login.html';
-    document.getElementById("apiKey").value = apiKey;
-
-    async function loadPrices() {
-      const items = { dp: 283, xanax: 206, stat: 209 };
-      for (const [htmlId, itemId] of Object.entries(items)) {
-        try {
-          const res = await fetch(`/api/proxy?itemId=${itemId}&key=${apiKey}`);
-          const data = await res.json();
-          const listings = (data.itemmarket || {}).listings || [];
-          const top3 = listings.slice(0, 3).map(l => 
-            `<a href="https://www.torn.com/imarket.php#/pshop&type=inventory&searchname=&id=${itemId}" target="_blank">
-              ${l.price.toLocaleString()}$ (${l.amount})
-            </a>`
-          );
-          document.getElementById(htmlId).innerHTML = top3.join('') || "N/A";
-        } catch (e) {
-          document.getElementById(htmlId).innerHTML = '<td colspan="3">Erreur de chargement</td>';
-        }
+    document.getElementById("submit").addEventListener("click", () => {
+      const apiKey = document.getElementById("apiKey").value.trim();
+      if (apiKey) {
+        localStorage.setItem("tornApiKey", apiKey);
+        window.location.href = "main.html";
       }
-    }
-    document.getElementById("loadPrices").addEventListener("click", loadPrices);
+    });
   </script>
 </body>
 </html>
