@@ -1,32 +1,33 @@
-
 const fetch = require("node-fetch");
 
-exports.handler = async function(event) {
-  const itemId = event.queryStringParameters.itemId;
-  const apiKey = event.queryStringParameters.key;
-  if (!itemId || !apiKey) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: "Missing parameters." })
-    };
-  }
+exports.handler = async function (event) {
+    const itemId = event.queryStringParameters.itemId;
+    const apiKey = event.queryStringParameters.key;
 
-  const url = `https://api.torn.com/v2/market/${itemId}?selections=itemmarket&key=${apiKey}`;
-  try {
-    const response = await fetch(url);
-    const json = await response.json();
-    return {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(json.data)
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Erreur proxy Torn." })
-    };
-  }
+    if (!itemId || !apiKey) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "Missing parameters." })
+        };
+    }
+
+    const url = `https://api.torn.com/v2/market/${itemId}?selections=itemmarket&key=${apiKey}`;
+    try {
+        const response = await fetch(url);
+        const json = await response.json();
+
+        return {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(json)
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Erreur proxy Torn." })
+        };
+    }
 };
