@@ -1,48 +1,36 @@
 
-const items = [
-  { id: 206, name: "Xanax" },
-  { id: 209, name: "Stat Enhancer" },
-  { id: 210, name: "Donator Pack" }
-];
+let apiKey = "";
 
 function connect() {
-  const key = document.getElementById("apiKey").value;
-  if (!key) return alert("Veuillez entrer une clé API.");
-  localStorage.setItem("apiKey", key);
+  apiKey = document.getElementById("apiKey").value.trim();
+  localStorage.setItem("tornApiKey", apiKey);
   loadPrices();
 }
 
 async function loadPrices() {
-  const key = localStorage.getItem("apiKey");
-  if (!key) return;
+  apiKey = localStorage.getItem("tornApiKey") || "";
+  if (!apiKey) return alert("Clé API manquante.");
 
-  const container = document.getElementById("priceList");
-  container.innerHTML = "";
+  const items = {
+    xanax: 206,
+    stat: 208,
+    dp: 209
+  };
 
-  for (let item of items) {
+  for (const [name, id] of Object.entries(items)) {
     try {
-      const response = await fetch(`/api/proxy?itemId=${item.id}&key=${key}`);
-      const data = await response.json();
-
-      const listings = data.itemmarket?.listings || [];
-      const top3 = listings.slice(0, 3);
-
-      const html = `
-        <h2>${item.name}</h2>
-        ${top3.map(listing => `
-          <p>
-            💰 <strong>${listing.price.toLocaleString()}$</strong> – 
-            📦 ${listing.amount} 
-            <a href="https://www.torn.com/imarket.php#/p=shop&type=item&id=${item.id}" target="_blank">🛒 Acheter</a>
-          </p>`).join("")}
-      `;
-
-      container.innerHTML += `<div class="item-box">${html}</div>`;
-    } catch (err) {
-      container.innerHTML += `<div class="item-box"><h2>${item.name}</h2><p>Erreur de chargement.</p></div>`;
+      const res = await fetch(`/api/proxy?itemId=${id}&key=${apiKey}`);
+      const data = await res.json();
+      const prices = (data?.item?.market?.[id]?.[0]?.price) ? data.item.market[id].slice(0, 3) : [];
+      for (let i = 0; i < 3; i++) {
+        document.getElementById(`${name}${i}`).textContent = prices[i]
+          ? `${prices[i].price.toLocaleString()}$ (${prices[i].amount})`
+          : "Erreur de chargement";
+      }
+    } catch (e) {
+      for (let i = 0; i < 3; i++) {
+        document.getElementById(`${name}${i}`).textContent = "Erreur de chargement";
+      }
     }
   }
 }
-
-document.getElementById("connectBtn").addEventListener("click", connect);
-document.getElementById("refreshBtn").addEventListener("click", loadPrices);

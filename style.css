@@ -1,3 +1,4 @@
+
 body {
   background: #111;
   color: white;
@@ -8,13 +9,12 @@ input, button {
   padding: 8px;
   margin: 5px;
 }
-.main {
-  margin-top: 20px;
+table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
 }
-.card {
-  background: #1c1c1c;
-  margin: 10px auto;
-  padding: 15px;
-  width: 300px;
-  border-radius: 8px;
+th, td {
+  padding: 10px;
+  border: 1px solid #555;
 }

@@ -1,30 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Torn Market - Prix en direct</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="main">
-    <h1>💊 Torn Market - Prix en direct</h1>
-    <input id="apiKeyInput" type="text" placeholder="Votre clé API Torn">
-    <button onclick="connect()">Se connecter</button>
-    <button onclick="loadPrices()">Rafraîchir les prix</button>
-
-    <div class="card" id="xanax">
-      <h2>Xanax</h2>
-      <p id="prix-xanax">Erreur de chargement.</p>
-    </div>
-    <div class="card" id="stat">
-      <h2>Stat Enhancer</h2>
-      <p id="prix-stat">Erreur de chargement.</p>
-    </div>
-    <div class="card" id="dp">
-      <h2>Donator Pack</h2>
-      <p id="prix-dp">Erreur de chargement.</p>
-    </div>
-  </div>
-  <script src="script.js"></script>
+  <h1>💊 Torn Market - Prix en direct</h1>
+  <input type="text" id="apiKey" placeholder="Votre clé API Torn"/>
+  <button onclick="connect()">Se connecter</button>
+  <button onclick="loadPrices()">Rafraîchir les prix</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th><th>Prix 1</th><th>Prix 2</th><th>Prix 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Xanax</td><td id="xanax0"></td><td id="xanax1"></td><td id="xanax2"></td></tr>
+      <tr><td>Stat Enhancer</td><td id="stat0"></td><td id="stat1"></td><td id="stat2"></td></tr>
+      <tr><td>Donator Pack</td><td id="dp0"></td><td id="dp1"></td><td id="dp2"></td></tr>
+    </tbody>
+  </table>
+  <script src="main.js"></script>
 </body>
 </html>
